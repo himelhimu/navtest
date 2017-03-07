@@ -3,6 +3,8 @@ package test.android.sabbir.navdrawer;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -12,6 +14,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import test.android.sabbir.navdrawer.fragments.GitHubFragment;
+import test.android.sabbir.navdrawer.fragments.NasaMainFragment;
+import test.android.sabbir.navdrawer.fragments.SettingsFragment;
+import test.android.sabbir.navdrawer.fragments.ShareFragment;
+import test.android.sabbir.navdrawer.fragments.StackOverflowFragment;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -79,19 +87,25 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-
+        Fragment fragment=null;
         if (id == R.id.nav_github) {
             // Handle the camera action
+            fragment=new GitHubFragment();
         } else if (id == R.id.nav_nasa) {
-
+            fragment=new NasaMainFragment();
         } else if (id == R.id.nav_settings) {
-
+            fragment=new SettingsFragment();
         } else if (id == R.id.nav_stackoverflow) {
-
+            fragment=new StackOverflowFragment();
         } else if (id == R.id.nav_share) {
-
+                fragment=new ShareFragment();
         } else if (id == R.id.nav_send) {
 
+        }
+
+        if (fragment!=null){
+            FragmentManager fragmentManager=getSupportFragmentManager();
+            fragmentManager.beginTransaction().replace(R.id.fragment_container,fragment).commit();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
