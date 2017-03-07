@@ -9,4 +9,10 @@ package test.android.sabbir.navdrawer.Constants;
  */
 public class Constants {
     public static final String GITHUB_BASE_URL="https://api.github.com";
+    public static final String BASE_URL = "https://api.nasa.gov/planetary/apod?";
+    public static final String DATE_PARAMETER = "date=";
+    public static final String API_KEY_PARAMETER = "&api_key=";
+    public static final String MEDIA_TYPE_KEY = "media_type";
+    public static final String MEDIA_TYPE_VIDEO_VALUE = "video";
+    public static final String API_KEY="idv4ashBgAFNEVXITBLFKlwyKRPxLnUdeZ1q1yyY";
 }
