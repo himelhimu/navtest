@@ -21,6 +21,9 @@ import test.android.sabbir.navdrawer.fragments.SettingsFragment;
 import test.android.sabbir.navdrawer.fragments.ShareFragment;
 import test.android.sabbir.navdrawer.fragments.StackOverflowFragment;
 
+/**
+* @author sabbir
+* */
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
