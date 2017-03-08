@@ -14,7 +14,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.RelativeLayout;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import test.android.sabbir.navdrawer.fragments.GitHubFragment;
 import test.android.sabbir.navdrawer.fragments.NasaMainFragment;
 import test.android.sabbir.navdrawer.fragments.SettingsFragment;
@@ -26,11 +29,13 @@ import test.android.sabbir.navdrawer.fragments.StackOverflowFragment;
 * */
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-
+     @BindView(R.id.log_in_layout)
+     RelativeLayout mRelativeLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -107,6 +112,7 @@ public class MainActivity extends AppCompatActivity
         }
 
         if (fragment!=null){
+            mRelativeLayout.setVisibility(View.GONE);
             FragmentManager fragmentManager=getSupportFragmentManager();
             fragmentManager.beginTransaction().replace(R.id.fragment_container,fragment).commit();
         }

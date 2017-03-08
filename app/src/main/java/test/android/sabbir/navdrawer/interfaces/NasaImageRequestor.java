@@ -9,7 +9,7 @@ import android.app.Activity;
 public class NasaImageRequestor {
     private boolean isLoading=false;
     GetNasaImage mGetNasaImage;
-    private
+   // private
 
     public boolean isLoading(){
         return this.isLoading;
