@@ -2,6 +2,7 @@ package test.android.sabbir.navdrawer.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,6 +30,7 @@ public class NasaImageAdapter extends RecyclerView.Adapter<NasaImageAdapter.Imag
     private ArrayList<NasaPhoto> mReceivedNasaImageList;
   public   NasaImageAdapter(Context context, ArrayList<NasaPhoto> list){
         this.mReceivedNasaImageList=list;
+      Log.i("list size",""+mReceivedNasaImageList.size());
       this.mContext=context;
     }
 
