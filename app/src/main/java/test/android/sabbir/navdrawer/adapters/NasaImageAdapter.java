@@ -28,15 +28,15 @@ import test.android.sabbir.navdrawer.models.NasaPhoto;
 public class NasaImageAdapter extends RecyclerView.Adapter<NasaImageAdapter.ImageViewHolder> {
     private Context mContext;
     private ArrayList<NasaPhoto> mReceivedNasaImageList;
-  public   NasaImageAdapter(Context context, ArrayList<NasaPhoto> list){
+  public NasaImageAdapter(Context context, ArrayList<NasaPhoto> list){
         this.mReceivedNasaImageList=list;
       Log.i("list size",""+mReceivedNasaImageList.size());
       this.mContext=context;
     }
 
     @Override
-    public ImageViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.nasa_image_item_card,null);
+    public NasaImageAdapter.ImageViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.nasa_image_item_card,parent,false);
         return new ImageViewHolder(view);
     }
 
@@ -53,14 +53,14 @@ public class NasaImageAdapter extends RecyclerView.Adapter<NasaImageAdapter.Imag
         return mReceivedNasaImageList.size();
     }
 
- public  static class ImageViewHolder extends RecyclerView.ViewHolder{
+ static class ImageViewHolder extends RecyclerView.ViewHolder{
         @BindView(R.id.nasa_image)
         ImageView nasaImageView;
         @BindView(R.id.tv_date)
         TextView tvDate;
         @BindView(R.id.tv_details)
         TextView tvDetails;
-        public ImageViewHolder(View itemView) {
+        ImageViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this,itemView);
         }

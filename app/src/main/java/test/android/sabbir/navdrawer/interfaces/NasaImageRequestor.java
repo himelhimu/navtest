@@ -8,6 +8,8 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 
+import org.json.JSONObject;
+
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -70,11 +72,17 @@ public class NasaImageRequestor {
             public void onResponse(Call call, Response response) throws IOException {
                 try {
                     Log.i("url to hit",""+call.request().url());
+                    JSONObject photJSON=new JSONObject(response.body().string());
                     mCalendar.add(Calendar.DAY_OF_YEAR,-1);
-                    Gson gson=new Gson();
-                    NasaPhoto photoDetails=gson.fromJson(response.body().charStream(),NasaPhoto.class);
-                    mResponseListener.onReceivedNewPhoto(photoDetails);
-                    mLoadingData=false;
+                    if (!photJSON.getString(MEDIA_TYPE_KEY).equalsIgnoreCase(MEDIA_TYPE_VIDEO_VALUE)){
+                        Gson gson=new Gson();
+                        NasaPhoto photoDetails=gson.fromJson(response.body().charStream(),NasaPhoto.class);
+                        mResponseListener.onReceivedNewPhoto(photoDetails);
+                        mLoadingData=false;
+                    }else {
+                        getPhoto();
+                    }
+
 
                 }catch (Exception e){
                     mLoadingData=false;

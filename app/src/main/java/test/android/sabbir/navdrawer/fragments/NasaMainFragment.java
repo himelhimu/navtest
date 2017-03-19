@@ -37,7 +37,7 @@ import test.android.sabbir.navdrawer.models.NasaPhoto;
  * A simple {@link Fragment} subclass.
  */
 public class NasaMainFragment extends Fragment implements NasaImageRequestor.ImageRequestorResponse{
-    @BindView(R.id.nasa_rv)
+    //@BindView(R.id.nasa_rv)
     RecyclerView mRecyclerView;
     private Calendar mCalendar;
     private SimpleDateFormat mSimpleDateFormat;
@@ -56,14 +56,14 @@ public class NasaMainFragment extends Fragment implements NasaImageRequestor.Ima
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         Log.i("TAG","Nasa On OnActivityCreated");
-        mNasaImageRequestor=new NasaImageRequestor(getActivity());
-        mRecyclerView.setLayoutManager(mLinearLayoutManager);
+        //mNasaImageRequestor=new NasaImageRequestor(getActivity());
+        /*mRecyclerView.setLayoutManager(mLinearLayoutManager);
 
-        requestNewPhoto();
+
         mRecyclerView.addOnScrollListener(new MyRecyclViewScrollListener());
 
         mNasaImageAdapter=new NasaImageAdapter(this.getContext(), (ArrayList<NasaPhoto>) mNasaImageList);
-        mRecyclerView.setAdapter(mNasaImageAdapter);
+        mRecyclerView.setAdapter(mNasaImageAdapter);*/
        /* Retrofit retrofit=new Retrofit.Builder().baseUrl(Constants.BASE_URL).
                 addConverterFactory(GsonConverterFactory.create()).build();
 
@@ -97,29 +97,21 @@ public class NasaMainFragment extends Fragment implements NasaImageRequestor.Ima
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.i("TAG","Nasa On Oncreate");
-        mLinearLayoutManager=new LinearLayoutManager(getActivity());
+        /*mLinearLayoutManager=new LinearLayoutManager(getActivity());
+        mNasaImageRequestor=new NasaImageRequestor(getActivity());
         mNasaImageList=new ArrayList<>();
         mCalendar=Calendar.getInstance();
-        mSimpleDateFormat=new SimpleDateFormat("yyyy-MM-dd");
-       // requestNewPhoto();
+        mSimpleDateFormat=new SimpleDateFormat("yyyy-MM-dd");*/
+//       requestNewPhoto();
 
     }
 
-   /* @Override
-    public void onStart() {
-        super.onStart();
-        Log.i("TAG","In OnStart of Fragment");
-        if (mNasaImageList.size()==0){
-            Log.i("TAG","Calling requestNewPhoto");
-            requestNewPhoto();
-        }
-    }*/
 
     private void requestNewPhoto() {
         try {
             Log.i("TAG","In requestNewPhoto");
             mNasaImageRequestor.getPhoto();
-          // mNasaImageAdapter.notifyDataSetChanged();
+//           mNasaImageAdapter.notifyDataSetChanged();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -132,19 +124,40 @@ public class NasaMainFragment extends Fragment implements NasaImageRequestor.Ima
         // Inflate the layout for this fragment
         Log.i("TAG","Nasa On OncreateView");
         View view=inflater.inflate(R.layout.fragment_nasa_main,container,false);
+        mRecyclerView=(RecyclerView) view.findViewById(R.id.nasa_rv);
         ButterKnife.bind(this,view);
+        mLinearLayoutManager=new LinearLayoutManager(getActivity());
+        mNasaImageRequestor=new NasaImageRequestor(getActivity());
+        mNasaImageList=new ArrayList<>();
+        //mCalendar=Calendar.getInstance();
+        //mSimpleDateFormat=new SimpleDateFormat("yyyy-MM-dd");
+        requestNewPhoto();  //crashes here
+        mRecyclerView.setLayoutManager(mLinearLayoutManager);
+
+
+       // mRecyclerView.addOnScrollListener(new MyRecyclViewScrollListener());
+
+        mNasaImageAdapter=new NasaImageAdapter(this.getContext(), (ArrayList<NasaPhoto>) mNasaImageList);
+        mRecyclerView.setAdapter(mNasaImageAdapter);
+        mRecyclerView.addOnScrollListener(new MyRecyclViewScrollListener());
         return view;
     }
 
     @Override
     public void onReceivedNewPhoto(final NasaPhoto nasaPhoto) {
-        this.getActivity().runOnUiThread(new Runnable() {
+       /* this.getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 mNasaImageList.add(nasaPhoto);
-                mNasaImageAdapter.notifyDataSetChanged();
+                mNasaImageAdapter.notifyItemInserted(mNasaImageList.size());
             }
-        });
+        });*/
+
+       mNasaImageList.add(nasaPhoto);
+        mNasaImageAdapter=new NasaImageAdapter(this.getContext(), (ArrayList<NasaPhoto>) mNasaImageList);
+        mRecyclerView.setAdapter(mNasaImageAdapter);
+       // mNasaImageAdapter.notifyItemInserted(mNasaImageList.size()-1);
+       // mNasaImageAdapter.notifyDataSetChanged();
     }
 
     private class MyRecyclViewScrollListener extends RecyclerView.OnScrollListener {
@@ -153,14 +166,14 @@ public class NasaMainFragment extends Fragment implements NasaImageRequestor.Ima
             super.onScrollStateChanged(recyclerView, newState);
             int toatlItemCount=recyclerView.getLayoutManager().getItemCount();
             Log.i("INFO","In ScrollListener new photo");
-            if (!mNasaImageRequestor.isLoadingData() && toatlItemCount==getLastVisableItemPosition()+1){
+            if (!mNasaImageRequestor.isLoadingData() && toatlItemCount==getLastVisibleItemPosition()+1){
                 Log.i("INFO","calling request new photo");
                 requestNewPhoto();
             }
         }
     }
 
-    private int getLastVisableItemPosition() {
+    private int getLastVisibleItemPosition() {
         return mLinearLayoutManager.findLastVisibleItemPosition();
     }
 }
