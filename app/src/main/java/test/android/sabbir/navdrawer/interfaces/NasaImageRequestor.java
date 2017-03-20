@@ -25,7 +25,7 @@ import test.android.sabbir.navdrawer.models.NasaPhoto;
  * Created by sabbi on 3/7/2017.
  */
 
-public class NasaImageRequestor {
+public  class NasaImageRequestor {
     private Calendar mCalendar;
     private SimpleDateFormat mDateFormat;
     private ImageRequestorResponse mResponseListener;
@@ -38,6 +38,7 @@ public class NasaImageRequestor {
     private static final String MEDIA_TYPE_VIDEO_VALUE = "video";
     private static final String API_KEY="idv4ashBgAFNEVXITBLFKlwyKRPxLnUdeZ1q1yyY";
     private boolean mLoadingData=false;
+    private FragmentActivity fragmentActivity;
 
     public boolean isLoadingData(){
         return mLoadingData;
@@ -50,10 +51,11 @@ public class NasaImageRequestor {
     public NasaImageRequestor(FragmentActivity activity){
         mCalendar = Calendar.getInstance();
         mDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-      //  mResponseListener = (ImageRequestorResponse) activity;
-        mContext = activity.getApplicationContext();
+//        mResponseListener = (ImageRequestorResponse) activity;
+        mContext = activity;
         mClient = new OkHttpClient();
         mLoadingData = false;
+        this.fragmentActivity=activity;
     }
 
     public void getPhoto() throws IOException {
@@ -78,6 +80,7 @@ public class NasaImageRequestor {
                         Gson gson=new Gson();
                         NasaPhoto photoDetails=gson.fromJson(response.body().charStream(),NasaPhoto.class);
                         mResponseListener.onReceivedNewPhoto(photoDetails);
+
                         mLoadingData=false;
                     }else {
                         getPhoto();
@@ -89,5 +92,6 @@ public class NasaImageRequestor {
                 }
             }
         });
+
     }
 }

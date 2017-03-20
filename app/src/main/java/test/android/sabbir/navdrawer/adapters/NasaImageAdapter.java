@@ -30,7 +30,7 @@ public class NasaImageAdapter extends RecyclerView.Adapter<NasaImageAdapter.Imag
     private ArrayList<NasaPhoto> mReceivedNasaImageList;
   public NasaImageAdapter(Context context, ArrayList<NasaPhoto> list){
         this.mReceivedNasaImageList=list;
-      Log.i("list size",""+mReceivedNasaImageList.size());
+
       this.mContext=context;
     }
 
@@ -42,6 +42,7 @@ public class NasaImageAdapter extends RecyclerView.Adapter<NasaImageAdapter.Imag
 
     @Override
     public void onBindViewHolder(ImageViewHolder holder, int position) {
+        Log.i("inOnBind",""+mReceivedNasaImageList.size());
         Picasso.with(mContext).load(mReceivedNasaImageList.get(position).getUrl()).into(holder.nasaImageView);
         holder.tvDate.setText(mReceivedNasaImageList.get(position).getDate());
         holder.tvDetails.setText(mReceivedNasaImageList.get(position).getExplanation());
@@ -50,6 +51,7 @@ public class NasaImageAdapter extends RecyclerView.Adapter<NasaImageAdapter.Imag
 
     @Override
     public int getItemCount() {
+        Log.i("list size",""+mReceivedNasaImageList.size());
         return mReceivedNasaImageList.size();
     }
 
