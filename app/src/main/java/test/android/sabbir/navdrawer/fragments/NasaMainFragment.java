@@ -161,7 +161,7 @@ public class NasaMainFragment extends Fragment{
             @Override
             public void onResponse(Call<NasaPhoto> call, Response<NasaPhoto> response) {
                 Log.i("URL1",""+call.request().url());
-               Toast.makeText(getContext(),"Status"+response.message(),Toast.LENGTH_LONG).show();
+              // Toast.makeText(getContext(),"Status"+response.message(),Toast.LENGTH_LONG).show();
                 Log.i("response",response.body().getTitle());
                 mNasaImageList.add(response.body());
                 mNasaImageAdapter.notifyItemInserted(mNasaImageList.size());
