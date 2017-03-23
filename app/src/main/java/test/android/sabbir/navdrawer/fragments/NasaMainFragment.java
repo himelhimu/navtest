@@ -72,6 +72,7 @@ public class NasaMainFragment extends Fragment{
             e.printStackTrace();
         }
         mRecyclerView.addOnScrollListener(new MyRecyclViewScrollListener());
+        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
         mNasaImageAdapter=new NasaImageAdapter(this.getContext(), (ArrayList<NasaPhoto>) mNasaImageList);
         mRecyclerView.setAdapter(mNasaImageAdapter);
@@ -165,11 +166,6 @@ public class NasaMainFragment extends Fragment{
                 Log.i("response",response.body().getTitle());
                 mNasaImageList.add(response.body());
                 mNasaImageAdapter.notifyItemInserted(mNasaImageList.size());
-                //mNasaImageList= (ArrayList<NasaPhoto>) response.body();
-               /* mNasaImageAdapter=new NasaImageAdapter(getContext(), mNasaImageList);
-                mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-                mRecyclerView.setAdapter(mNasaImageAdapter);
-                mRecyclerView.hasFixedSize();*/
 
             }
 
