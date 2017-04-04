@@ -6,10 +6,14 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -48,6 +52,7 @@ public class NasaMainFragment extends Fragment{
     private NasaImageRequestor mNasaImageRequestor;
     ImageRequestor imageRequestor;
     Retrofit mRetrofit;
+    private GridLayoutManager mGridLayoutManager;
 
 
 
@@ -141,6 +146,24 @@ public class NasaMainFragment extends Fragment{
         }
 
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.nasa_menu,menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.show_as_grid:
+                mGridLayoutManager=new GridLayoutManager(getContext(),2);
+                mRecyclerView.setLayoutManager(mGridLayoutManager);
+                return true;
+            case R.id.default_layout:
+                mRecyclerView.setLayoutManager(mLinearLayoutManager);
+                return true;
+        }
+        return false;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -148,6 +171,7 @@ public class NasaMainFragment extends Fragment{
         // Inflate the layout for this fragment
         Log.i("TAG","Nasa On OncreateView");
         View view=inflater.inflate(R.layout.fragment_nasa_main,container,false);
+        setHasOptionsMenu(true);
         return view;
     }
 
