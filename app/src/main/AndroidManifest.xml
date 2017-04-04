@@ -4,7 +4,7 @@
 <uses-permission android:name="android.permission.INTERNET"></uses-permission>
     <application
         android:allowBackup="true"
-        android:icon="@drawable/bignerd_mark_1x"
+        android:icon="@drawable/nerd_icon"
         android:label="@string/app_name"
         android:roundIcon="@drawable/app1"
         android:supportsRtl="true"
