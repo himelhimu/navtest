@@ -9,6 +9,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -79,8 +80,12 @@ public class NasaMainFragment extends Fragment{
         mRecyclerView.addOnScrollListener(new MyRecyclViewScrollListener());
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
+
+
         mNasaImageAdapter=new NasaImageAdapter(this.getContext(), (ArrayList<NasaPhoto>) mNasaImageList);
         mRecyclerView.setAdapter(mNasaImageAdapter);
+
+        setOnItemTouchListener();
        /* Retrofit retrofit=new Retrofit.Builder().baseUrl(Constants.BASE_URL).
                 addConverterFactory(GsonConverterFactory.create()).build();
 
@@ -108,6 +113,25 @@ public class NasaMainFragment extends Fragment{
             }
         });*/
 
+    }
+
+    private void setOnItemTouchListener() {
+        ItemTouchHelper.SimpleCallback itemTouchCallback=new ItemTouchHelper.SimpleCallback(0,ItemTouchHelper.LEFT|ItemTouchHelper.RIGHT) {
+            @Override
+            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+                int position=viewHolder.getAdapterPosition();
+                mNasaImageList.remove(position);
+                mRecyclerView.getAdapter().notifyItemRemoved(position);
+            }
+        };
+
+        ItemTouchHelper itemTouchHelper=new ItemTouchHelper(itemTouchCallback);
+        itemTouchHelper.attachToRecyclerView(mRecyclerView);
     }
 
     @Override
