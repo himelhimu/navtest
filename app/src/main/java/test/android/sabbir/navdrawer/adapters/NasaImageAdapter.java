@@ -73,9 +73,10 @@ public class NasaImageAdapter extends RecyclerView.Adapter<NasaImageAdapter.Imag
             nasaImageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent=new Intent(itemView.getContext(), NasaPhotoDetailsActivity.class);
+                    Context context=itemView.getContext();
+                    Intent intent=new Intent(context, NasaPhotoDetailsActivity.class);
                     intent.putExtra("photo",mNasaPhoto);
-                    itemView.getContext().startActivity(intent);
+                   context.startActivity(intent);
                 }
             });
         }
