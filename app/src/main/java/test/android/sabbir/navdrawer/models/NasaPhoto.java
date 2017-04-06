@@ -1,10 +1,12 @@
 package test.android.sabbir.navdrawer.models;
 
+import java.io.Serializable;
+
 /**
  * Created by sabbi on 3/7/2017.
  */
 
-public class NasaPhoto {
+public class NasaPhoto implements Serializable {
     private String date,explanation,title,url;
 
     public NasaPhoto() {

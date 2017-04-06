@@ -1,6 +1,7 @@
 package test.android.sabbir.navdrawer.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,6 +17,7 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import test.android.sabbir.navdrawer.R;
+import test.android.sabbir.navdrawer.activites.NasaPhotoDetailsActivity;
 import test.android.sabbir.navdrawer.models.NasaPhoto;
 
 /**
@@ -28,6 +30,7 @@ import test.android.sabbir.navdrawer.models.NasaPhoto;
 public class NasaImageAdapter extends RecyclerView.Adapter<NasaImageAdapter.ImageViewHolder> {
     private Context mContext;
     private ArrayList<NasaPhoto> mReceivedNasaImageList;
+    private NasaPhoto mNasaPhoto;
   public NasaImageAdapter(Context context, ArrayList<NasaPhoto> list){
         this.mReceivedNasaImageList=list;
 
@@ -43,6 +46,7 @@ public class NasaImageAdapter extends RecyclerView.Adapter<NasaImageAdapter.Imag
     @Override
     public void onBindViewHolder(ImageViewHolder holder, int position) {
         Log.i("inOnBind",""+mReceivedNasaImageList.size());
+        mNasaPhoto=mReceivedNasaImageList.get(position);
         Picasso.with(mContext).load(mReceivedNasaImageList.get(position).getUrl()).into(holder.nasaImageView);
         holder.tvDate.setText(mReceivedNasaImageList.get(position).getDate());
         holder.tvDetails.setText(mReceivedNasaImageList.get(position).getExplanation());
@@ -55,16 +59,25 @@ public class NasaImageAdapter extends RecyclerView.Adapter<NasaImageAdapter.Imag
         return mReceivedNasaImageList.size();
     }
 
- static class ImageViewHolder extends RecyclerView.ViewHolder{
+ class ImageViewHolder extends RecyclerView.ViewHolder{
         @BindView(R.id.nasa_image)
         ImageView nasaImageView;
         @BindView(R.id.tv_date)
         TextView tvDate;
         @BindView(R.id.tv_details)
         TextView tvDetails;
-        ImageViewHolder(View itemView) {
+        ImageViewHolder(final View itemView) {
             super(itemView);
             ButterKnife.bind(this,itemView);
+
+            nasaImageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent=new Intent(itemView.getContext(), NasaPhotoDetailsActivity.class);
+                    intent.putExtra("photo",mNasaPhoto);
+                    itemView.getContext().startActivity(intent);
+                }
+            });
         }
     }
 }
