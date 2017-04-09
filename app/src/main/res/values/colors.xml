@@ -15,4 +15,13 @@
     <color name="sky_blue_light">#62CBEE</color>
 
     <color name="black_overlay">#66000000</color>
+    <color name="colorGreenPrimary">#56B900</color>
+    <color name="colorGreenPrimaryDark">#289C2B</color>
+    <color name="colorAccentPinkinsh">#FF4081</color>
+    <color name="colorPrimaryLight">#84FF19</color>
+    <color name="colorWhite">#ffffff</color>
+    <color name="colorBlack">#000000</color>
+    <color name="colorDivider">#2FE897</color>
+    <color name="colorBorder">#a7a4a4</color>
+    <color name="colorExtra">#fffac1</color>
 </resources>
