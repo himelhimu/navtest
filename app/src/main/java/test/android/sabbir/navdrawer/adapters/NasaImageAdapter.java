@@ -30,7 +30,7 @@ import test.android.sabbir.navdrawer.models.NasaPhoto;
 public class NasaImageAdapter extends RecyclerView.Adapter<NasaImageAdapter.ImageViewHolder> {
     private Context mContext;
     private ArrayList<NasaPhoto> mReceivedNasaImageList;
-    private NasaPhoto mNasaPhoto;
+    private NasaPhoto mNasaPhoto=null;
   public NasaImageAdapter(Context context, ArrayList<NasaPhoto> list){
         this.mReceivedNasaImageList=list;
 
@@ -46,10 +46,11 @@ public class NasaImageAdapter extends RecyclerView.Adapter<NasaImageAdapter.Imag
     @Override
     public void onBindViewHolder(ImageViewHolder holder, int position) {
         Log.i("inOnBind",""+mReceivedNasaImageList.size());
-        mNasaPhoto=mReceivedNasaImageList.get(position);
-        Picasso.with(mContext).load(mReceivedNasaImageList.get(position).getUrl()).into(holder.nasaImageView);
+        NasaPhoto np=mReceivedNasaImageList.get(position);
+        holder.bindPhoto(np);
+        /*Picasso.with(mContext).load(mReceivedNasaImageList.get(position).getUrl()).into(holder.nasaImageView);
         holder.tvDate.setText(mReceivedNasaImageList.get(position).getDate());
-        holder.tvDetails.setText(mReceivedNasaImageList.get(position).getExplanation());
+        holder.tvDetails.setText(mReceivedNasaImageList.get(position).getExplanation());*/
     }
 
 
@@ -59,26 +60,40 @@ public class NasaImageAdapter extends RecyclerView.Adapter<NasaImageAdapter.Imag
         return mReceivedNasaImageList.size();
     }
 
- class ImageViewHolder extends RecyclerView.ViewHolder{
+ class ImageViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         @BindView(R.id.nasa_image)
         ImageView nasaImageView;
         @BindView(R.id.tv_date)
         TextView tvDate;
         @BindView(R.id.tv_details)
         TextView tvDetails;
-        ImageViewHolder(final View itemView) {
+     private NasaPhoto mNasaPhoto=null;
+        ImageViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this,itemView);
-
-            nasaImageView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Context context=itemView.getContext();
-                    Intent intent=new Intent(context, NasaPhotoDetailsActivity.class);
-                    intent.putExtra("photo",mNasaPhoto);
-                   context.startActivity(intent);
-                }
-            });
+            itemView.setOnClickListener(this);
         }
-    }
+
+     @Override
+     public void onClick(View v) {
+         Context context=itemView.getContext();
+         Intent intent=new Intent(context, NasaPhotoDetailsActivity.class);
+         intent.putExtra("photo",mNasaPhoto);
+         context.startActivity(intent);
+     }
+
+     public void bindPhoto(NasaPhoto photo) {
+         mNasaPhoto = photo;
+         Picasso.with(nasaImageView.getContext()).load(photo.getUrl()).into(nasaImageView);
+         tvDate.setText(photo.getDate());
+         tvDetails.setText(photo.getExplanation());
+     }
+ }
+
+  /*  public void bindPhoto(NasaPhoto photo) {
+        mNasaPhoto = photo;
+        Picasso.with(mItemImage.getContext()).load(photo.getUrl()).into(mItemImage);
+        mItemDate.setText(photo.getHumanDate());
+        mItemDescription.setText(photo.getExplanation());
+    }*/
 }

@@ -54,6 +54,11 @@ public class NasaMainFragment extends Fragment{
     ImageRequestor imageRequestor;
     Retrofit mRetrofit;
     private GridLayoutManager mGridLayoutManager;
+    private boolean isLoading=false;
+
+    private boolean isLoading(){
+        return this.isLoading;
+    }
 
 
 
@@ -209,16 +214,19 @@ public class NasaMainFragment extends Fragment{
         call.enqueue(new Callback<NasaPhoto>() {
             @Override
             public void onResponse(Call<NasaPhoto> call, Response<NasaPhoto> response) {
+                isLoading=true;
                 Log.i("URL1",""+call.request().url());
               // Toast.makeText(getContext(),"Status"+response.message(),Toast.LENGTH_LONG).show();
                 Log.i("response",response.body().getTitle());
                 mNasaImageList.add(response.body());
                 mNasaImageAdapter.notifyItemInserted(mNasaImageList.size());
 
+                isLoading=false;
             }
 
             @Override
             public void onFailure(Call<NasaPhoto> call, Throwable t) {
+                isLoading=false;
               ///  Log.i("URL",""+call.request().url());
                // Toast.makeText(getContext(),"Error "+call.request().url(),Toast.LENGTH_LONG).show();
             }
@@ -235,7 +243,7 @@ public class NasaMainFragment extends Fragment{
             super.onScrollStateChanged(recyclerView, newState);
             int toatlItemCount=recyclerView.getLayoutManager().getItemCount();
             Log.i("INFO","In ScrollListener new photo");
-            if (toatlItemCount==getLastVisibleItemPosition()+1){
+            if (!isLoading() && toatlItemCount==getLastVisibleItemPosition()+1){
                 Log.i("INFO","calling request new photo");
                 requestNewPhoto();
             }
