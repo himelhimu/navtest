@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "965303822607",
+    "firebase_url": "https://myinfo-87118.firebaseio.com",
+    "project_id": "myinfo-87118",
+    "storage_bucket": "myinfo-87118.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:965303822607:android:9dc97330df7ae849",
+        "android_client_info": {
+          "package_name": "test.android.sabbir.navdrawer"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "965303822607-tbjddu8vbk3g5j4feu970ktpkuskinan.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBmd7ZzyP_141XjnolOQ4LxSQ0iXC4UZzs"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

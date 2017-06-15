@@ -2,6 +2,7 @@ package test.android.sabbir.navdrawer.fragments;
 
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -55,6 +56,7 @@ public class NasaMainFragment extends Fragment{
     Retrofit mRetrofit;
     private GridLayoutManager mGridLayoutManager;
     private boolean isLoading=false;
+    private ProgressDialog mProgressDialog;
 
     private boolean isLoading(){
         return this.isLoading;
@@ -87,7 +89,7 @@ public class NasaMainFragment extends Fragment{
 
 
 
-        mNasaImageAdapter=new NasaImageAdapter(this.getContext(), (ArrayList<NasaPhoto>) mNasaImageList);
+        mNasaImageAdapter=new NasaImageAdapter(this.getContext(), mNasaImageList);
         mRecyclerView.setAdapter(mNasaImageAdapter);
 
         setOnItemTouchListener();
@@ -143,6 +145,9 @@ public class NasaMainFragment extends Fragment{
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.i("TAG","Nasa On Oncreate");
+        mProgressDialog=new ProgressDialog(getContext());
+        mProgressDialog.setMessage("Fetching Nasa Image Of The Day..Please Wait");
+        mProgressDialog.show();
         mCalendar=Calendar.getInstance();
         mSimpleDateFormat=new SimpleDateFormat("yyyy-MM-dd");
 //       requestNewPhoto();
@@ -200,6 +205,7 @@ public class NasaMainFragment extends Fragment{
         // Inflate the layout for this fragment
         Log.i("TAG","Nasa On OncreateView");
         View view=inflater.inflate(R.layout.fragment_nasa_main,container,false);
+
         setHasOptionsMenu(true);
         return view;
     }
@@ -212,6 +218,7 @@ public class NasaMainFragment extends Fragment{
         String date=mSimpleDateFormat.format(mCalendar.getTime());
         Call<NasaPhoto> call=imageRequestor.getPhoto(date,Constants.API_KEY);
         call.enqueue(new Callback<NasaPhoto>() {
+
             @Override
             public void onResponse(Call<NasaPhoto> call, Response<NasaPhoto> response) {
                 isLoading=true;
@@ -222,6 +229,7 @@ public class NasaMainFragment extends Fragment{
                 mNasaImageAdapter.notifyItemInserted(mNasaImageList.size());
 
                 isLoading=false;
+                if (mProgressDialog.isShowing()) mProgressDialog.dismiss();
             }
 
             @Override

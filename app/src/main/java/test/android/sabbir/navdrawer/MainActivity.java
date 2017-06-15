@@ -1,5 +1,7 @@
 package test.android.sabbir.navdrawer;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -18,6 +20,8 @@ import android.widget.RelativeLayout;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import test.android.sabbir.navdrawer.Constants.Constants;
+import test.android.sabbir.navdrawer.activites.RegisterActivity;
 import test.android.sabbir.navdrawer.fragments.GitHubFragment;
 import test.android.sabbir.navdrawer.fragments.NasaMainFragment;
 import test.android.sabbir.navdrawer.fragments.SettingsFragment;
@@ -57,8 +61,28 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        SharedPreferences sharedPreferences=getSharedPreferences(Constants.DEFAULT_PREFS_FILE,MODE_PRIVATE);
+        /*SharedPreferences.Editor editor=sharedPreferences.edit();
+        editor.putBoolean("registered",false);
+        editor.apply();*/
+            boolean isLoggedIn=sharedPreferences.getBoolean("loggedin",false);
+        if (!isLoggedIn){
+            Intent intent=new Intent(this,RegisterActivity.class);
+            startActivity(intent);
+        }
 
 
+
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        SharedPreferences sharedPreferences=getSharedPreferences(Constants.DEFAULT_PREFS_FILE,0);
+        SharedPreferences.Editor editor=sharedPreferences.edit();
+        editor.putBoolean("loggedin",false);
+        editor.apply();
     }
 
     @Override
@@ -87,6 +111,11 @@ public class MainActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            SharedPreferences sharedPreferences=getSharedPreferences(Constants.DEFAULT_PREFS_FILE,0);
+            SharedPreferences.Editor editor=sharedPreferences.edit();
+            editor.putBoolean("loggedin",false);
+            editor.apply();
+            finish();
             return true;
         }
 

@@ -1,6 +1,7 @@
 package test.android.sabbir.navdrawer.fragments;
 
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -64,6 +65,9 @@ public class GitHubFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        final ProgressDialog progressDialog=new ProgressDialog(getContext());
+        progressDialog.setMessage("Fetching GitHub data...Please Wait");
+        progressDialog.show();
         Retrofit retrofit=new Retrofit.Builder().baseUrl(Constants.GITHUB_BASE_URL).
                 addConverterFactory(GsonConverterFactory.create()).build();
         GitHubDataInterface gitHubDataInterface=retrofit.create(GitHubDataInterface.class);
@@ -72,9 +76,12 @@ public class GitHubFragment extends Fragment {
             @Override
             public void onResponse(Call<GitHubUser> call, Response<GitHubUser> response) {
                 GitHubUser gitHubUser=response.body();
-                tvName.setText(gitHubUser.getName());
-                tvUserName.setText(gitHubUser.getLogin());
+                tvName.append(gitHubUser.getName());
+                tvUserName.append(gitHubUser.getLogin());
+                tvRepos.append(gitHubUser.getPublicRepos().toString());
+                tvOthers.append(gitHubUser.getUpdatedAt());
                 Picasso.with(getActivity()).load(gitHubUser.getAvatarUrl()).into(profileImageView);
+                progressDialog.dismiss();
             }
 
             @Override
@@ -95,6 +102,10 @@ public class GitHubFragment extends Fragment {
     TextView tvName;
     @BindView(R.id.textView6)
     TextView tvUserName;
+    @BindView(R.id.textView8)
+    TextView tvRepos;
+    @BindView(R.id.textView7)
+    TextView tvOthers;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
