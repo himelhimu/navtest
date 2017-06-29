@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -65,26 +66,31 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void handleRegisterClick() {
-        mProgressDialog.show();
-        String email=etEmail.getText().toString().trim();
-        String password=etPassword.getText().toString().trim();
-        mFirebaseAuth.createUserWithEmailAndPassword(email,password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-       @Override
-      public void onComplete(@NonNull Task<AuthResult> task) {
-                    if (task.isSuccessful()){
-                        SharedPreferences sharedPreferences=getSharedPreferences(Constants.DEFAULT_PREFS_FILE,0);
-                        SharedPreferences.Editor editor=sharedPreferences.edit();
-                        editor.putBoolean("loggedin",true);
-                        editor.apply();
-                        mProgressDialog.dismiss();
-                        callMainActivity();
-                    }else {
-                        mProgressDialog.dismiss();
-                        Toast.makeText(getApplicationContext(),task.getException().toString(),Toast.LENGTH_LONG).show();
-                    }
-                }
-           }) ;
+        if(TextUtils.isEmpty(etEmail.getText().toString()) || TextUtils.isEmpty(etPassword.getText().toString())){
+            Toast.makeText(getApplicationContext(),"Please provide email/password",Toast.LENGTH_SHORT).show();
+        }else {
+            mProgressDialog.show();
+            String email=etEmail.getText().toString().trim();
+            String password=etPassword.getText().toString().trim();
+            mFirebaseAuth.createUserWithEmailAndPassword(email,password)
+                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()){
+                                SharedPreferences sharedPreferences=getSharedPreferences(Constants.DEFAULT_PREFS_FILE,0);
+                                SharedPreferences.Editor editor=sharedPreferences.edit();
+                                editor.putBoolean("loggedin",true);
+                                editor.apply();
+                                mProgressDialog.dismiss();
+                                callMainActivity();
+                            }else {
+                                mProgressDialog.dismiss();
+                                Toast.makeText(getApplicationContext(),task.getException().toString(),Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    }) ;
+        }
+
     }
 
     private void callMainActivity() {
@@ -94,26 +100,31 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void handleLoginClick() {
-        mProgressDialog.show();
-        String email=etEmail.getText().toString().trim();
-        String password=etPassword.getText().toString().trim();
+        if(TextUtils.isEmpty(etEmail.getText().toString()) || TextUtils.isEmpty(etPassword.getText().toString())){
+            Toast.makeText(getApplicationContext(),"Please provide email/password",Toast.LENGTH_SHORT).show();
+        }else {
+            mProgressDialog.show();
+            String email=etEmail.getText().toString().trim();
+            String password=etPassword.getText().toString().trim();
 
-        mFirebaseAuth.signInWithEmailAndPassword(email,password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()){
-                            SharedPreferences sharedPreferences=getSharedPreferences(Constants.DEFAULT_PREFS_FILE,0);
-                            SharedPreferences.Editor editor=sharedPreferences.edit();
-                            editor.putBoolean("loggedin",true);
-                            editor.apply();
-                            mProgressDialog.dismiss();
-                            callMainActivity();
-                        }else {
-                            mProgressDialog.dismiss();
-                            Toast.makeText(getApplicationContext(),"Email/Password Mismatch,try again",Toast.LENGTH_LONG).show();
+            mFirebaseAuth.signInWithEmailAndPassword(email,password)
+                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()){
+                                SharedPreferences sharedPreferences=getSharedPreferences(Constants.DEFAULT_PREFS_FILE,0);
+                                SharedPreferences.Editor editor=sharedPreferences.edit();
+                                editor.putBoolean("loggedin",true);
+                                editor.apply();
+                                mProgressDialog.dismiss();
+                                callMainActivity();
+                            }else {
+                                mProgressDialog.dismiss();
+                                Toast.makeText(getApplicationContext(),"Email/Password Mismatch,try again",Toast.LENGTH_LONG).show();
+                            }
                         }
-                    }
-                });
+                    });
+        }
+
     }
 }

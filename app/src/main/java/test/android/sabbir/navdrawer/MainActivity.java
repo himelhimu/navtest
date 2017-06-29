@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
      @BindView(R.id.log_in_layout)
      RelativeLayout mRelativeLayout;
+    private boolean isLoggedIn;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,7 +66,7 @@ public class MainActivity extends AppCompatActivity
         /*SharedPreferences.Editor editor=sharedPreferences.edit();
         editor.putBoolean("registered",false);
         editor.apply();*/
-            boolean isLoggedIn=sharedPreferences.getBoolean("loggedin",false);
+        isLoggedIn=sharedPreferences.getBoolean("loggedin",false);
         if (!isLoggedIn){
             Intent intent=new Intent(this,RegisterActivity.class);
             startActivity(intent);
@@ -87,6 +88,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
+
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
