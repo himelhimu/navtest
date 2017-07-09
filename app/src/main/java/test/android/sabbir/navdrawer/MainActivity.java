@@ -22,6 +22,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import test.android.sabbir.navdrawer.Constants.Constants;
 import test.android.sabbir.navdrawer.activites.RegisterActivity;
+import test.android.sabbir.navdrawer.application.MyApplication;
 import test.android.sabbir.navdrawer.fragments.GitHubFragment;
 import test.android.sabbir.navdrawer.fragments.NasaMainFragment;
 import test.android.sabbir.navdrawer.fragments.SettingsFragment;
@@ -41,6 +42,7 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+        MyApplication myApplication=MyApplication.getInstance();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
