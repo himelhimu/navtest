@@ -3,6 +3,7 @@ package test.android.sabbir.navdrawer.activites;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.media.MediaScannerConnection;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -128,8 +129,13 @@ public class NasaPhotoDetailsActivity extends AppCompatActivity implements Image
 
 
     @Override
-    public void onSaved(boolean b) {
+    public void onSaved(boolean b,String imagePath) {
         if (b)
+        {
             Toast.makeText(this, getImageName()+" Successfully Saved",Toast.LENGTH_SHORT).show();
+            MediaScannerConnection.scanFile(this, new String[] { imagePath }, new String[] { "image/jpeg" }, null);
+        }
+
+
     }
 }

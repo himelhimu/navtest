@@ -5,5 +5,5 @@ package test.android.sabbir.navdrawer.interfaces;
  */
 
 public interface ImageSaveListener {
-    void onSaved(boolean b);
+    void onSaved(boolean b,String filePath);
 }

@@ -35,7 +35,7 @@ public class ImageDownloadTask extends AsyncTask<String,Void,Bitmap> {
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
-        mProgressDialog.show();
+        //mProgressDialog.show();
     }
 
     @Override
@@ -56,7 +56,7 @@ public class ImageDownloadTask extends AsyncTask<String,Void,Bitmap> {
     @Override
     protected void onPostExecute(Bitmap bitmap) {
         super.onPostExecute(bitmap);
-        mProgressDialog.dismiss();
+       // mProgressDialog.dismiss();
         listener.onImageDownLoaded(bitmap);
     }
 

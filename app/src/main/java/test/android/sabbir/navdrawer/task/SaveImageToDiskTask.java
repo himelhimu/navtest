@@ -1,6 +1,7 @@
 package test.android.sabbir.navdrawer.task;
 
 import android.graphics.Bitmap;
+import android.media.MediaScannerConnection;
 import android.os.AsyncTask;
 import android.os.Environment;
 
@@ -20,6 +21,7 @@ import test.android.sabbir.navdrawer.interfaces.ImageSaveListener;
 public class SaveImageToDiskTask extends AsyncTask<Bitmap,Void,Void> {
     private ImageSaveListener imageSaveListener;
     private boolean isSaved;
+    private String filePath="";
     @Override
     protected Void doInBackground(Bitmap... params) {
        String path=Environment.getExternalStorageDirectory().getAbsolutePath()+File.separator+MyApplication.IMAGE_FOLDER_NAME;
@@ -35,6 +37,7 @@ public class SaveImageToDiskTask extends AsyncTask<Bitmap,Void,Void> {
             fileOutputStream.flush();
             fileOutputStream.close();
             isSaved=true;
+            filePath=fileName.getPath();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -49,7 +52,7 @@ public class SaveImageToDiskTask extends AsyncTask<Bitmap,Void,Void> {
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
         if (isSaved)
-            imageSaveListener.onSaved(isSaved);
+            imageSaveListener.onSaved(isSaved,filePath);
     }
 
     public void setSavingListener(NasaPhotoDetailsActivity nasaPhotoDetailsActivity) {

@@ -1,5 +1,7 @@
 package test.android.sabbir.navdrawer.models;
 
+import android.graphics.Bitmap;
+
 import java.io.Serializable;
 
 /**
@@ -8,6 +10,15 @@ import java.io.Serializable;
 
 public class NasaPhoto implements Serializable {
     private String date,explanation,title,url;
+    private Bitmap bitmap;
+
+    public Bitmap getBitmap() {
+        return bitmap;
+    }
+
+    public void setBitmap(Bitmap bitmap) {
+        this.bitmap = bitmap;
+    }
 
     public NasaPhoto() {
     }

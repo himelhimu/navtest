@@ -3,9 +3,9 @@
     android:layout_width="match_parent"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    card_view:cardCornerRadius="3dp"
-    card_view:cardElevation="6dp"
-    android:layout_gravity="center"
+    card_view:cardCornerRadius="6dp"
+    card_view:cardElevation="10dp"
+    card_view:theme="@style/AppTheme"
     card_view:cardUseCompatPadding="true"
     android:layout_height="wrap_content">
 
@@ -16,7 +16,7 @@
                 android:adjustViewBounds="true"
                 android:id="@+id/nasa_image"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="250dp" />
             <TextView
                 android:padding="5dp"
                 android:layout_weight="1"
@@ -36,6 +36,16 @@
                 android:id="@+id/tv_details"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
+        <ImageView
+            android:id="@+id/imagview_fav_border"
+            android:clickable="true"
+            android:contextClickable="true"
+            android:layout_alignBottom="@id/tv_date"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:src="@drawable/ic_fav_border"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
         </RelativeLayout>
 
 

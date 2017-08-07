@@ -20,21 +20,20 @@ public class MyApplication extends Application {
     }
 
     public MyApplication() {
-        createDirctory();
+
     }
 
-    private void createDirctory() {
+
+  @SuppressWarnings("StatementWithEmptyBody")
+  public static void createDirectory() throws IOException {
+      boolean isCreated=false;
         String path= Environment.getExternalStorageDirectory()+ File.separator+IMAGE_FOLDER_NAME;
         File dir=new File(path);
-        boolean isCreated=dir.mkdir();
+      if (!dir.exists()){
+          isCreated=dir.mkdir();
+      }
+
         if (isCreated);
-        else {
-            try {
-                throw new IOException();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
     }
 
     @Override
