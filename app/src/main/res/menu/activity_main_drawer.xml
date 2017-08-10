@@ -8,12 +8,8 @@
             android:title="GitHub" />
         <item
             android:id="@+id/nav_stackoverflow"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="StackOverflow" />
-
-            android:id="@+id/nav_settings"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="Tools" />
+            android:icon="@drawable/ic_music_red"
+            android:title="Music" />
     </group>
 
     <item android:title="Nasa Image Of The Day">

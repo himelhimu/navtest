@@ -41,7 +41,7 @@ public class MusicFragmentPagerAdapter extends FragmentPagerAdapter {
     public CharSequence getPageTitle(int position) {
         switch (position){
             case 0:
-                return "Nasa";
+                return "Song";
             case 1:
                 return "Music";
             case 2:

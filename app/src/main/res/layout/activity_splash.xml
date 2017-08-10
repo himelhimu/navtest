@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center"
-    android:background="@color/colorPrimaryDark"
+    android:background="@color/colorWhite"
     >
 
     <LinearLayout
@@ -18,7 +18,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/gao_lafin"
+            android:src="@drawable/nerd_icon"
             android:contentDescription="@string/app_name"/>
 
     </LinearLayout>

@@ -5,6 +5,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import java.util.List;
 
@@ -12,7 +14,7 @@ import test.android.sabbir.navdrawer.R;
 import test.android.sabbir.navdrawer.models.Song;
 
 
-public class SongAdapter extends RecyclerView.Adapter<SongViewHolder>{
+public class SongAdapter extends RecyclerView.Adapter<SongAdapter.SongViewHolder>{
 
     private Context context;
     private List<Song> allSongs;
@@ -43,9 +45,15 @@ public class SongAdapter extends RecyclerView.Adapter<SongViewHolder>{
         holder.songTitle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mCallBack.onItemClicked(songs);
+                //mCallBack.onItemClicked(songs);
+                clicked(songs);
             }
         });
+
+    }
+
+    private void clicked(Song songs) {
+        mCallBack.onItemClicked(songs);
     }
 
     @Override
@@ -53,4 +61,27 @@ public class SongAdapter extends RecyclerView.Adapter<SongViewHolder>{
         return allSongs.size();
     }
 
+
+    public class SongViewHolder extends RecyclerView.ViewHolder{
+
+        public TextView songTitle;
+        public TextView songAuthor;
+        public ImageView songImage;
+
+        public SongViewHolder(View itemView, TextView songTitle, TextView songAuthor, ImageView songImage) {
+            super(itemView);
+            this.songTitle = songTitle;
+            this.songAuthor = songAuthor;
+            this.songImage = songImage;
+        }
+
+        public SongViewHolder(View itemView) {
+            super(itemView);
+
+            songTitle = (TextView)itemView.findViewById(R.id.song_title);
+            songAuthor = (TextView)itemView.findViewById(R.id.song_author);
+            songImage = (ImageView)itemView.findViewById(R.id.song_cover);
+
+        }
+    }
 }
