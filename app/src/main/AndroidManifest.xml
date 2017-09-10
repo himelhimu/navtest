@@ -34,6 +34,12 @@
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
+        <service
+            android:name=".musicplayer.MusicService"
+            android:enabled="true"
+            android:exported="true">
+
+        </service>
 <activity android:name=".activites.SplashActivity">
     <intent-filter>
         <action android:name="android.intent.action.MAIN" />

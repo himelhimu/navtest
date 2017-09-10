@@ -21,7 +21,7 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.SongViewHolder
     private OnItemClickListener mCallBack;
 
     public interface OnItemClickListener{
-        void onItemClicked(Song song);
+        void onItemClicked(Song song,int position);
     }
 
     public SongAdapter(Context context, List<Song> allSongs, OnItemClickListener listener) {
@@ -37,7 +37,7 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.SongViewHolder
     }
 
     @Override
-    public void onBindViewHolder(SongViewHolder holder, int position) {
+    public void onBindViewHolder(SongViewHolder holder, final int position) {
         final Song songs = allSongs.get(position);
         holder.songTitle.setText(songs.getTitle());
         holder.songAuthor.setText(songs.getArtist());
@@ -46,14 +46,14 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.SongViewHolder
             @Override
             public void onClick(View v) {
                 //mCallBack.onItemClicked(songs);
-                clicked(songs);
+                clicked(songs,position);
             }
         });
 
     }
 
-    private void clicked(Song songs) {
-        mCallBack.onItemClicked(songs);
+    private void clicked(Song songs, int position) {
+        mCallBack.onItemClicked(songs,position);
     }
 
     @Override

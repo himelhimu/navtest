@@ -48,9 +48,8 @@ import test.android.sabbir.navdrawer.fragments.StackOverflowFragment;
 * */
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-     @BindView(R.id.log_in_layout)
-     RelativeLayout mRelativeLayout;
-    MyApplication myApplication;
+
+        MyApplication myApplication;
 
 
     @Override
@@ -63,14 +62,6 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         DatabaseHelper databaseHelper=new DatabaseHelper(this);
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Coming Soon!!", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -203,7 +194,6 @@ public class MainActivity extends AppCompatActivity
         }
 
         if (fragment!=null){
-            mRelativeLayout.setVisibility(View.GONE);
             FragmentManager fragmentManager=getSupportFragmentManager();
             fragmentManager.beginTransaction().replace(R.id.fragment_container,fragment).commit();
         }

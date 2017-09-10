@@ -9,32 +9,6 @@
     tools:context="test.android.sabbir.navdrawer.MainActivity"
     tools:showIn="@layout/app_bar_main">
 
-
-   <RelativeLayout
-       android:visibility="gone"
-       android:background="@drawable/gao_lafin"
-       android:id="@+id/log_in_layout"
-       android:layout_width="match_parent"
-       android:layout_height="match_parent"
-       tools:layout_editor_absoluteX="8dp"
-       tools:layout_editor_absoluteY="8dp">
-
-      <ImageView
-          android:visibility="gone"
-          android:id="@+id/imageview_1"
-          android:adjustViewBounds="true"
-          android:src="@drawable/gao_painting_2_big"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content" />
-      <ImageView
-          android:visibility="gone"
-          android:src="@drawable/gao_lafin"
-          android:adjustViewBounds="true"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:layout_below="@+id/imageview_1" />
-   </RelativeLayout>
-
    <FrameLayout
        android:id="@+id/fragment_container"
        android:layout_width="match_parent"

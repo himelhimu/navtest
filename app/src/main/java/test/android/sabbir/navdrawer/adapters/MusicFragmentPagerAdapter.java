@@ -26,15 +26,13 @@ public class MusicFragmentPagerAdapter extends FragmentPagerAdapter {
                 return new MusicMainFragment();
             case 2:
                 return new PlayListFragment();
-            case 3:
-                return new SongFragment();
         }
         return null;
     }
 
     @Override
     public int getCount() {
-        return 4;
+        return 3;
     }
 
     @Override
@@ -46,8 +44,6 @@ public class MusicFragmentPagerAdapter extends FragmentPagerAdapter {
                 return "Music";
             case 2:
                 return "PlayList";
-            case 3:
-                return "Song";
         }
         return null;
     }

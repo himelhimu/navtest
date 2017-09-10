@@ -313,7 +313,7 @@ public class NasaMainFragment extends Fragment implements FavButtonClickedListen
         {   Log.d("TAG","DATa "+nasaPhoto.getTitle());
             mDatabaseHelper.insertFavNasaImage(nasaPhoto,bitmap);
         }else {
-            Toast.makeText(getContext(),"No Love for you ",Toast.LENGTH_LONG).show();
+            Toast.makeText(getContext(),"No Love for you",Toast.LENGTH_LONG).show();
         }
 
     }

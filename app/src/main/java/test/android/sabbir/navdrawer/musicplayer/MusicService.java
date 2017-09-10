@@ -102,6 +102,7 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
                 .setSmallIcon(R.drawable.play)
                 .setTicker(songTitle)
                 .setOngoing(true)
+                .setAutoCancel(true)
                 .setContentTitle("Playing")
         .setContentText(songTitle);
 
