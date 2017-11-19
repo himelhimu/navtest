@@ -73,25 +73,6 @@ public class VideoActivity extends YouTubeBaseActivity implements YouTubePlayer.
     }
 
 
-   public void videoButtonCLicked(View view){
-       switch (view.getId()){
-           case R.id.Five_Key_Practices_of_Producing_Jute_ID:
-               mYouTubePlayer.cueVideo(VideoConfig.Five_Key_Practices_of_Producing_Jute_ID);
-               tvNowPlaying.setText("Five Key Practices of Producing Jute");
-               break;
-           case R.id.Five_Key_Practices_of_Producing_CHILLI_ID:
-               mYouTubePlayer.cueVideo(VideoConfig.Five_Key_Practices_of_Producing_CHILLI_ID);
-               tvNowPlaying.setText("Five Key Practices of Producing CHILLI");
-               break;
-           case R.id.Five_Key_Practices_of_Producing_MUNGBEAN_ID:
-               mYouTubePlayer.cueVideo(VideoConfig.Five_Key_Practices_of_Producing_MUNGBEAN_ID);
-               tvNowPlaying.setText("Five Key Practices of Producing MUNGBEAN");
-               break;
-
-       }
-
-    }
-
     private YouTubePlayer.PlaybackEventListener playbackEventListener = new YouTubePlayer.PlaybackEventListener() {
 
         @Override
