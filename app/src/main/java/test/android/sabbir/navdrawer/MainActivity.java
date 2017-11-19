@@ -6,15 +6,11 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
-import android.support.design.widget.BottomNavigationView;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
-import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -23,25 +19,18 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import java.io.IOException;
 
-import butterknife.BindView;
 import butterknife.ButterKnife;
 import test.android.sabbir.navdrawer.Constants.Constants;
 import test.android.sabbir.navdrawer.activites.RegisterActivity;
 import test.android.sabbir.navdrawer.application.MyApplication;
 import test.android.sabbir.navdrawer.databases.DatabaseHelper;
-import test.android.sabbir.navdrawer.fragments.FavoritesFragment;
 import test.android.sabbir.navdrawer.fragments.GitHubFragment;
-import test.android.sabbir.navdrawer.fragments.MusicLibraryFragment;
-import test.android.sabbir.navdrawer.fragments.NasaMainFragment;
-import test.android.sabbir.navdrawer.fragments.SavedFragment;
-import test.android.sabbir.navdrawer.fragments.SettingsFragment;
-import test.android.sabbir.navdrawer.fragments.ShareFragment;
-import test.android.sabbir.navdrawer.fragments.StackOverflowFragment;
+import test.android.sabbir.navdrawer.video.VideoActivity;
+import test.android.sabbir.navdrawer.weather.WeatherFragment;
 
 /**
 * @author sabbir
@@ -72,7 +61,7 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        SharedPreferences sharedPreferences=getSharedPreferences(Constants.DEFAULT_PREFS_FILE,MODE_PRIVATE);
+        SharedPreferences sharedPreferences= PreferenceManager.getDefaultSharedPreferences(this);
         /*SharedPreferences.Editor editor=sharedPreferences.edit();
         editor.putBoolean("registered",false);
         editor.apply();*/
@@ -81,9 +70,6 @@ public class MainActivity extends AppCompatActivity
             Intent intent=new Intent(this,RegisterActivity.class);
             startActivity(intent);
         }else {
-            Fragment fragment=new NasaMainFragment();
-            FragmentManager fragmentManager=getSupportFragmentManager();
-            fragmentManager.beginTransaction().replace(R.id.fragment_container,fragment,null).commit();
         }
 
 
@@ -126,7 +112,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        SharedPreferences sharedPreferences=getSharedPreferences(Constants.DEFAULT_PREFS_FILE,0);
+        SharedPreferences sharedPreferences=PreferenceManager.getDefaultSharedPreferences(this);
         SharedPreferences.Editor editor=sharedPreferences.edit();
         editor.putBoolean("loggedin",false);
         editor.apply();
@@ -159,7 +145,7 @@ public class MainActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            SharedPreferences sharedPreferences=getSharedPreferences(Constants.DEFAULT_PREFS_FILE,0);
+            SharedPreferences sharedPreferences=PreferenceManager.getDefaultSharedPreferences(this);
             SharedPreferences.Editor editor=sharedPreferences.edit();
             editor.putBoolean("loggedin",false);
             editor.apply();
@@ -180,17 +166,12 @@ public class MainActivity extends AppCompatActivity
             // Handle the camera action
             fragment=new GitHubFragment();
         } else if (id == R.id.nav_nasa) {
-            fragment=new NasaMainFragment();
+            startActivity(new Intent(this, VideoActivity.class));
         } else if (id == R.id.nav_stackoverflow) {
-            fragment=new MusicLibraryFragment();
+
         } else if (id == R.id.nasa_saved_images) {
-                fragment=new SavedFragment();
+            fragment=new WeatherFragment();
         } else if (id == R.id.nasa_fav_images) {
-            Bundle bundle=new Bundle();
-            bundle.putBoolean("isFavFragment",true);
-            fragment = new FavoritesFragment();
-            fragment.setArguments(bundle);
-                fragment=new FavoritesFragment();
         }
 
         if (fragment!=null){

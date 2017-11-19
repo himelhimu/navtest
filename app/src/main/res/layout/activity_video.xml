@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_video"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <TextView
+            android:text="Video"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <com.google.android.youtube.player.YouTubePlayerView
+            android:layout_marginTop="30dp"
+            android:id="@+id/youtube_player_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            >
+
+        </com.google.android.youtube.player.YouTubePlayerView>
+
+
+        <TextView
+            android:textAppearance="?android:textAppearanceMedium"
+            android:text="Now Playing"
+            android:id="@+id/tv_now_playing"
+            android:layout_below="@+id/youtube_player_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:layout_marginTop="100dp"
+            android:layout_below="@id/youtube_player_view"
+            android:text="Select any of the below to start watching"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:layout_marginTop="120dp"
+            android:clickable="true"
+            android:textSize="18sp"
+            android:textColor="@color/colorPrimaryDark"
+            android:textStyle="bold"
+            android:onClick="videoButtonCLicked"
+            android:id="@+id/Five_Key_Practices_of_Producing_Jute_ID"
+            android:layout_below="@+id/youtube_player_view"
+            android:text="Five Key Practices of Producing Jute"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:layout_marginTop="10dp"
+            android:clickable="true"
+            android:textSize="18sp"
+            android:textColor="@color/colorPrimaryDark"
+            android:textStyle="bold"
+            android:onClick="videoButtonCLicked"
+            android:id="@+id/Five_Key_Practices_of_Producing_CHILLI_ID"
+            android:layout_below="@+id/Five_Key_Practices_of_Producing_Jute_ID"
+            android:text="Five Key Practices of Producing CHILLI"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:layout_marginTop="10dp"
+            android:clickable="true"
+            android:textSize="18sp"
+            android:textColor="@color/colorPrimaryDark"
+            android:textStyle="bold"
+            android:onClick="videoButtonCLicked"
+            android:id="@+id/Five_Key_Practices_of_Producing_MUNGBEAN_ID"
+            android:layout_below="@+id/Five_Key_Practices_of_Producing_CHILLI_ID"
+            android:text="Five Key Practices of Producing MUNGBEAN"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+
+</ScrollView>
