@@ -13,21 +13,19 @@ import java.io.File;
 import java.io.IOException;
 
 import io.fabric.sdk.android.Fabric;
+import test.android.sabbir.navdrawer.handler.MyExceptionHandler;
 
 /**
  * Created by sabbir on 7/9/17.
  */
 
 public class MyApplication extends Application {
+
     private static  MyApplication ourInstance;
     public static String IMAGE_FOLDER_NAME="nasaImage";
     private FirebaseAnalytics mFirebaseAnalytics;
     public static MyApplication getInstance() {
         return ourInstance;
-    }
-
-    public MyApplication() {
-
     }
 
 
@@ -46,9 +44,10 @@ public class MyApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-
-        ourInstance=new MyApplication();
+        ourInstance=this;
         mFirebaseAnalytics=FirebaseAnalytics.getInstance(this);
+
+        Thread.setDefaultUncaughtExceptionHandler(new MyExceptionHandler(this));
     }
 
     @Override
