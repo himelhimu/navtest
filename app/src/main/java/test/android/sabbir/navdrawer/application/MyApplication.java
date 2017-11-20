@@ -2,11 +2,17 @@ package test.android.sabbir.navdrawer.application;
 
 import android.app.Application;
 import android.content.Context;
+import android.os.Bundle;
 import android.os.Environment;
 import android.support.multidex.MultiDex;
 
+import com.crashlytics.android.Crashlytics;
+import com.google.firebase.analytics.FirebaseAnalytics;
+
 import java.io.File;
 import java.io.IOException;
+
+import io.fabric.sdk.android.Fabric;
 
 /**
  * Created by sabbir on 7/9/17.
@@ -15,6 +21,7 @@ import java.io.IOException;
 public class MyApplication extends Application {
     private static  MyApplication ourInstance;
     public static String IMAGE_FOLDER_NAME="nasaImage";
+    private FirebaseAnalytics mFirebaseAnalytics;
     public static MyApplication getInstance() {
         return ourInstance;
     }
@@ -39,7 +46,9 @@ public class MyApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+
         ourInstance=new MyApplication();
+        mFirebaseAnalytics=FirebaseAnalytics.getInstance(this);
     }
 
     @Override

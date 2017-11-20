@@ -8,6 +8,9 @@ import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.crashlytics.android.Crashlytics;
+
+import io.fabric.sdk.android.Fabric;
 import test.android.sabbir.navdrawer.MainActivity;
 import test.android.sabbir.navdrawer.R;
 
@@ -22,6 +25,7 @@ public class SplashActivity extends AppCompatActivity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         super.onCreate(savedInstanceState);
+        Fabric.with(this, new Crashlytics());
         setContentView(R.layout.activity_splash);
 
         ActionBar actionBar = getSupportActionBar();
@@ -32,7 +36,7 @@ public class SplashActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable(){
             @Override
             public void run(){
-                Intent startActivityIntent = new Intent(SplashActivity.this, MainActivity.class);
+                Intent startActivityIntent = new Intent(SplashActivity.this, RegisterActivity.class);
                 startActivity(startActivityIntent);
                 SplashActivity.this.finish();
             }

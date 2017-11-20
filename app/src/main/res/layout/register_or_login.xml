@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:padding="10dp"
     android:gravity="center"
-    android:background="@color/wallet_bright_foreground_holo_dark">
+    android:background="@color/light_grey">
 
     <ImageView
         android:id="@+id/imageView4"
