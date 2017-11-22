@@ -30,11 +30,19 @@ import android.widget.Toast;
 
 
 import com.crashlytics.android.Crashlytics;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GoogleAuthProvider;
 
 import java.io.IOException;
 import java.util.List;
@@ -50,6 +58,8 @@ import test.android.sabbir.navdrawer.utilites.GPSTracker;
 import test.android.sabbir.navdrawer.utilites.Helper;
 
 public class RegisterActivity extends AppCompatActivity {
+    private static final String TAG ="RegisterActivity" ;
+    private static final int RC_GOOGLE_SING_IN_CODE =21 ;
     @BindView(R.id.btn_login)
     Button btnLogin;
     @BindView(R.id.btn_register)
@@ -69,6 +79,8 @@ public class RegisterActivity extends AppCompatActivity {
     private String mLatitude;
     private String mLongitude;
     private LocationManager locationManager;
+    private GoogleSignInClient mGoogleSignInClient;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,6 +98,12 @@ public class RegisterActivity extends AppCompatActivity {
         }else {
             ActivityCompat.requestPermissions(this,PERMISSIONS,19);
         }
+
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(Constants.SERVER_KEY)
+                .requestEmail()
+                .build();
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
         gps=new GPSTracker(this);
         mFirebaseAuth=FirebaseAuth.getInstance();
         mProgressDialog=new ProgressDialog(this);
@@ -99,28 +117,19 @@ public class RegisterActivity extends AppCompatActivity {
 
 
 
-        btnLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mProgressDialog.setMessage("Logging in...Please Wait");
-                handleLoginClick();
-            }
+        btnLogin.setOnClickListener(v -> {
+            mProgressDialog.setMessage("Logging in...Please Wait");
+            handleLoginClick();
         });
 
-        btnRegister.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mProgressDialog.setMessage("Registering...Please Wait");
-                handleRegisterClick();
-            }
+        btnRegister.setOnClickListener(v -> {
+            mProgressDialog.setMessage("Registering...Please Wait");
+            handleRegisterClick();
         });
 
-        imageView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                hiddenCallToMainActivity();
-                return true;
-            }
+        imageView.setOnTouchListener((v, event) -> {
+            hiddenCallToMainActivity();
+            return true;
         });
     }
 
@@ -137,6 +146,54 @@ public class RegisterActivity extends AppCompatActivity {
 
         }
     }
+
+    public void signInWithGoogle(View view){
+        Intent intent=mGoogleSignInClient.getSignInIntent();
+        startActivityForResult(intent,RC_GOOGLE_SING_IN_CODE);
+    }
+
+    private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
+        Log.d(TAG, "firebaseAuthWithGoogle:" + acct.getId());
+        // [START_EXCLUDE silent]
+        mProgressDialog.show();
+        // [END_EXCLUDE]
+
+        AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
+        mFirebaseAuth.signInWithCredential(credential)
+                .addOnCompleteListener(this, task -> {
+                    if (task.isSuccessful()) {
+                        // Sign in success, update UI with the signed-in user's information
+                        Log.d(TAG, "signInWithCredential:success");
+                        FirebaseUser user = mFirebaseAuth.getCurrentUser();
+                        updateUI(user);
+                    } else {
+                        // If sign in fails, display a message to the user.
+                        Log.w(TAG, "signInWithCredential:failure", task.getException());
+                        Toast.makeText(RegisterActivity.this, "Authentication failed.",
+                                Toast.LENGTH_SHORT).show();
+                        updateUI(null);
+                    }
+
+                    // [START_EXCLUDE]
+                    mProgressDialog.dismiss();
+                    // [END_EXCLUDE]
+                });
+    }
+
+    private void updateUI(FirebaseUser user) {
+
+    }
+
+    private void signOut() {
+        // Firebase sign out
+        mFirebaseAuth.signOut();
+
+        // Google sign out
+        mGoogleSignInClient.signOut().addOnCompleteListener(this,
+                task -> updateUI(null));
+    }
+
+
 
     private void hiddenCallToMainActivity() {
         SharedPreferences sharedPreferences= PreferenceManager.getDefaultSharedPreferences(this);
@@ -158,20 +215,17 @@ public class RegisterActivity extends AppCompatActivity {
             String password=etPassword.getText().toString().trim();
 
             mFirebaseAuth.createUserWithEmailAndPassword(email,password)
-                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if (task.isSuccessful()){
-                                SharedPreferences sharedPreferences=getSharedPreferences(Constants.DEFAULT_PREFS_FILE,0);
-                                SharedPreferences.Editor editor=sharedPreferences.edit();
-                                editor.putBoolean("loggedin",true);
-                                editor.apply();
-                                mProgressDialog.dismiss();
-                                callMainActivity();
-                            }else {
-                                mProgressDialog.dismiss();
-                                Toast.makeText(getApplicationContext(),task.getException().toString(),Toast.LENGTH_LONG).show();
-                            }
+                    .addOnCompleteListener(this, task -> {
+                        if (task.isSuccessful()){
+                            SharedPreferences sharedPreferences=getSharedPreferences(Constants.DEFAULT_PREFS_FILE,0);
+                            SharedPreferences.Editor editor=sharedPreferences.edit();
+                            editor.putBoolean("loggedin",true);
+                            editor.apply();
+                            mProgressDialog.dismiss();
+                            callMainActivity();
+                        }else {
+                            mProgressDialog.dismiss();
+                            Toast.makeText(getApplicationContext(),task.getException().toString(),Toast.LENGTH_LONG).show();
                         }
                     }) ;
         }
@@ -181,7 +235,6 @@ public class RegisterActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        FirebaseUser firebaseUser=mFirebaseAuth.getCurrentUser();
 
     }
 
@@ -205,20 +258,17 @@ public class RegisterActivity extends AppCompatActivity {
             String password=etPassword.getText().toString().trim();
 
             mFirebaseAuth.signInWithEmailAndPassword(email,password)
-                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if (task.isSuccessful()){
-                                SharedPreferences sharedPreferences=getSharedPreferences(Constants.DEFAULT_PREFS_FILE,0);
-                                SharedPreferences.Editor editor=sharedPreferences.edit();
-                                editor.putBoolean("loggedin",true);
-                                editor.apply();
-                                mProgressDialog.dismiss();
-                                callMainActivity();
-                            }else {
-                                mProgressDialog.dismiss();
-                                Toast.makeText(getApplicationContext(),"Email/Password Mismatch,try again",Toast.LENGTH_LONG).show();
-                            }
+                    .addOnCompleteListener(this, task -> {
+                        if (task.isSuccessful()){
+                            SharedPreferences sharedPreferences=getSharedPreferences(Constants.DEFAULT_PREFS_FILE,0);
+                            SharedPreferences.Editor editor=sharedPreferences.edit();
+                            editor.putBoolean("loggedin",true);
+                            editor.apply();
+                            mProgressDialog.dismiss();
+                            callMainActivity();
+                        }else {
+                            mProgressDialog.dismiss();
+                            Toast.makeText(getApplicationContext(),"Email/Password Mismatch,try again",Toast.LENGTH_LONG).show();
                         }
                     });
         }
@@ -230,32 +280,24 @@ public class RegisterActivity extends AppCompatActivity {
         AlertDialog.Builder builder=new AlertDialog.Builder(this);
         builder.setTitle("Allow location data")
                 .setMessage("It'll be used to get Weather info");
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                if(gps.canGetLocation()){
-                    mLatitude = Double.toString(gps.getLatitude());
-                    mLongitude = Double.toString(gps.getLongitude());
+        builder.setPositiveButton("OK", (dialog, which) -> {
+            if(gps.canGetLocation()){
+                mLatitude = Double.toString(gps.getLatitude());
+                mLongitude = Double.toString(gps.getLongitude());
 
-                    SharedPreferences sharedPreferences=PreferenceManager.getDefaultSharedPreferences(RegisterActivity.this);
-                    SharedPreferences.Editor editor=sharedPreferences.edit();
-                    editor.putString("lat",mLatitude);
-                    editor.putString("lan",mLongitude);
-                    editor.apply();
+                SharedPreferences sharedPreferences=PreferenceManager.getDefaultSharedPreferences(RegisterActivity.this);
+                SharedPreferences.Editor editor=sharedPreferences.edit();
+                editor.putString("lat",mLatitude);
+                editor.putString("lan",mLongitude);
+                editor.apply();
 
-                    // \n is for new line
-                    Log.i("LocationData ",mLatitude+","+mLongitude);
-                }else{
-                    showSettingsAlert();
-                }
+                // \n is for new line
+                Log.i("LocationData ",mLatitude+","+mLongitude);
+            }else{
+                showSettingsAlert();
             }
         });
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
+        builder.setNegativeButton("Cancel", (dialog, which) -> dialog.dismiss());
 
         Dialog dialog=builder.create();
         dialog.show();
@@ -287,22 +329,15 @@ public class RegisterActivity extends AppCompatActivity {
 
         alertDialog.setMessage("GPS is not enabled. Do you want to go to settings menu?");
 
-        alertDialog.setPositiveButton("Settings", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog,int which) {
-                Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-               // startActivity(intent);
-                startActivityForResult(intent,21);
-                //finish();
-               // recreate();
-            }
+        alertDialog.setPositiveButton("Settings", (dialog, which) -> {
+            Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+           // startActivity(intent);
+            startActivityForResult(intent,21);
+            //finish();
+           // recreate();
         });
 
-        alertDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-
-            }
-        });
+        alertDialog.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
 
         AlertDialog dialog=alertDialog.create();
 
@@ -343,8 +378,20 @@ public class RegisterActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode== Activity.RESULT_OK || requestCode==21){
-            recreate();
+        if (requestCode == RC_GOOGLE_SING_IN_CODE) {
+            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+            try {
+                // Google Sign In was successful, authenticate with Firebase
+                GoogleSignInAccount account = task.getResult(ApiException.class);
+                firebaseAuthWithGoogle(account);
+            } catch (ApiException e) {
+                // Google Sign In failed, update UI appropriately
+                Log.w(TAG, "Google sign in failed", e);
+                // [START_EXCLUDE]
+                updateUI(null);
+                // [END_EXCLUDE]
+            }
         }
+
     }
 }

@@ -7,15 +7,16 @@
     android:padding="16dp"
     android:gravity="center">
 <LinearLayout
+    android:fitsSystemWindows="true"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <ImageView
+        android:fitsSystemWindows="true"
         android:scaleType="fitXY"
-        android:adjustViewBounds="true"
         android:id="@+id/imageView4"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="100dp"
         android:src="@drawable/bignerd_mark" />
 
     <android.support.design.widget.TextInputLayout
@@ -54,6 +55,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="LogIn" />
+
+    <com.google.android.gms.common.SignInButton
+        android:onClick="signInWithGoogle"
+        android:id="@+id/sign_in_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 </LinearLayout>
 
 </android.support.design.widget.CoordinatorLayout>

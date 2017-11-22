@@ -21,6 +21,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 import java.io.IOException;
 
 import butterknife.ButterKnife;
@@ -38,27 +41,31 @@ import test.android.sabbir.navdrawer.weather.WeatherFragment;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-        MyApplication myApplication;
+    private static final int SIGN_OR_REGISTER_CODE =29 ;
+    private static final String ANONYMOUS ="ANONYMOUS" ;
+    private FirebaseUser mFirebaseUser;
+    private FirebaseAuth mFirebaseAuth;
 
+    private String mUserName;
+    private String mUserPhotoUrl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-        myApplication=MyApplication.getInstance();
         checkForPermission();
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         DatabaseHelper databaseHelper=new DatabaseHelper(this);
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
         SharedPreferences sharedPreferences= PreferenceManager.getDefaultSharedPreferences(this);
@@ -72,6 +79,20 @@ public class MainActivity extends AppCompatActivity
         }else {
         }*/
 
+
+        mFirebaseAuth=FirebaseAuth.getInstance();
+        mFirebaseUser=mFirebaseAuth.getCurrentUser();
+
+        if (mFirebaseUser==null){
+
+            startActivityForResult(new Intent(this,RegisterActivity.class),SIGN_OR_REGISTER_CODE);
+            finish();
+        }else {
+            mUserName=mFirebaseUser.getDisplayName();
+            if (mFirebaseUser.getPhotoUrl()!=null){
+                mUserPhotoUrl=mFirebaseUser.getPhotoUrl().toString();
+            }
+        }
 
 
     }
@@ -121,7 +142,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onBackPressed() {
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
@@ -168,11 +189,16 @@ public class MainActivity extends AppCompatActivity
             fragment=new GitHubFragment();
         } else if (id == R.id.nav_nasa) {
             startActivity(new Intent(this, VideoActivity.class));
-        } else if (id == R.id.nav_stackoverflow) {
-
-        } else if (id == R.id.nasa_saved_images) {
+        }
+        else if (id == R.id.nasa_saved_images) {
             fragment=new WeatherFragment();
         } else if (id == R.id.nasa_fav_images) {
+
+        }else if (id==R.id.log_out){
+            mFirebaseAuth.signOut();
+            mUserName = ANONYMOUS;
+            startActivity(new Intent(this, RegisterActivity.class));
+            finish();
         }
 
         if (fragment!=null){
@@ -180,7 +206,7 @@ public class MainActivity extends AppCompatActivity
             fragmentManager.beginTransaction().replace(R.id.fragment_container,fragment).commit();
         }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }

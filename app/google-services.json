@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "965303822607-5t49v2h0e120st9ade7agvv7jkhn4nkl.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "test.android.sabbir.navdrawer",
+            "certificate_hash": "aa6e771c1eabfa6528cfbc7839a4d2e36258c871"
+          }
+        },
+        {
           "client_id": "965303822607-tbjddu8vbk3g5j4feu970ktpkuskinan.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -29,8 +37,13 @@
           "status": 1
         },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "965303822607-tbjddu8vbk3g5j4feu970ktpkuskinan.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         },
         "ads_service": {
           "status": 2

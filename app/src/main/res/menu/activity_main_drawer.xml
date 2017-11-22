@@ -7,8 +7,8 @@
             android:icon="@drawable/ic_account_circle_black_24dp"
             android:title="GitHub" />
         <item
-            android:id="@+id/nav_stackoverflow"
-            android:title="Music" />
+            android:id="@+id/log_out"
+            android:title="LogOut" />
     </group>
 
     <item android:title="Nasa Image Of The Day">

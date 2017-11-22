@@ -33,13 +33,10 @@ public class SplashActivity extends AppCompatActivity {
             actionBar.hide();
         }
 
-        new Handler().postDelayed(new Runnable(){
-            @Override
-            public void run(){
-                Intent startActivityIntent = new Intent(SplashActivity.this, RegisterActivity.class);
-                startActivity(startActivityIntent);
-                SplashActivity.this.finish();
-            }
+        new Handler().postDelayed(() -> {
+            Intent startActivityIntent = new Intent(SplashActivity.this, MainActivity.class);
+            startActivity(startActivityIntent);
+            SplashActivity.this.finish();
         }, SPLASH_DISPLAY_LENGTH);
     }
 }
