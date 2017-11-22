@@ -36,6 +36,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
@@ -80,6 +81,7 @@ public class RegisterActivity extends AppCompatActivity {
     private String mLongitude;
     private LocationManager locationManager;
     private GoogleSignInClient mGoogleSignInClient;
+    private GoogleApiClient mGoogleApiClient;
 
 
     @Override
@@ -100,11 +102,19 @@ public class RegisterActivity extends AppCompatActivity {
         }
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(Constants.SERVER_KEY)
+                //.requestIdToken(Constants.SERVER_KEY)
                 .requestEmail()
                 .build();
+
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+
         gps=new GPSTracker(this);
+
+        /*mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .enableAutoManage(this)
+                .addApi(Auth.GOOGLE_SIGN_IN_API,gso)
+                .build();
+*/
         mFirebaseAuth=FirebaseAuth.getInstance();
         mProgressDialog=new ProgressDialog(this);
 
@@ -146,6 +156,8 @@ public class RegisterActivity extends AppCompatActivity {
 
         }
     }
+
+
 
     public void signInWithGoogle(View view){
         Intent intent=mGoogleSignInClient.getSignInIntent();
