@@ -21,6 +21,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
+import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -303,6 +304,27 @@ public class Helper {
             }
         }
         return true;
+    }
+
+    public static boolean isNumeric(String s){
+        return s!=null && s.matches("[-+]?\\d*\\.?\\d+");
+    }
+
+    public static void downLoadFileWithJavaIO(String fileName,String url) throws Exception{
+        BufferedInputStream in;
+        FileOutputStream out;
+        URL url1=new URL(url);
+        in=new BufferedInputStream(url1.openStream());
+        out=new FileOutputStream(fileName);
+
+        byte data[] =new byte[1024];
+        int count;
+
+        while ((count=in.read(data,0,1024))!=-1){
+            out.write(data,0,count);
+        }
+        in.close();
+        out.close();
     }
 
 

@@ -17,7 +17,7 @@ import test.android.sabbir.navdrawer.R;
  */
 
 public class MyFirebaseMsgService extends FirebaseMessagingService {
-    public static final String TAG="MYFCM";
+    public static final String TAG="MyFirebaseMsgService";
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);

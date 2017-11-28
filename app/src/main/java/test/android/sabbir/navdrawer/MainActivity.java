@@ -97,7 +97,13 @@ public class MainActivity extends AppCompatActivity
 
     }
 
-
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode==SIGN_OR_REGISTER_CODE){
+            startActivity(new Intent(this, VideoActivity.class));
+        }
+    }
 
     private void checkForPermission() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED){

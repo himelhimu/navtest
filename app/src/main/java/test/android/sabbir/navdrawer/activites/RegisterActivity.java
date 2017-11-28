@@ -46,6 +46,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.List;
 import java.util.Locale;
 
@@ -193,7 +194,16 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void updateUI(FirebaseUser user) {
+            Intent intent=new Intent();
+            if (user!=null){
+                intent.putExtra("firebase", (Serializable) user);
+                setResult(Activity.RESULT_OK,intent);
+            }else {
+                intent.putExtra("firebase", (Serializable) user);
+                setResult(RESULT_OK,intent);
+            }
 
+            finish();
     }
 
     private void signOut() {
